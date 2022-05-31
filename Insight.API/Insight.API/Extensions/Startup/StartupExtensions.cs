@@ -1,4 +1,5 @@
-﻿using Npgsql;
+﻿using Insight.API.Models.Plaid;
+using Npgsql;
 
 namespace Insight.API.Extensions.Startup;
 
@@ -26,6 +27,18 @@ public static class StartupExtensions
         services.AddTransient<IUserService, UserService>();
         services.AddTransient<IAuthService, AuthService>();
         services.AddSingleton<ITokenService>(new TokenService());
+
+        // configure plaid services
+        services.AddHttpClient();
+        services.AddPlaid(configuration);
+        services.Configure<PlaidOptions>(options =>
+        {
+            options.Environment = Going.Plaid.Environment.Sandbox;
+            options.Secret = configuration.GetSection("plaid")["secret"];
+            options.ClientId = configuration.GetSection("plaid")["client_id"];
+        });
+        services.AddTransient<IPlaidService, PlaidService>();
+
     }
 }
 

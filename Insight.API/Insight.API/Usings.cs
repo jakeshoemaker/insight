@@ -5,6 +5,11 @@ global using Insight.API.Services.Interfaces;
 global using Insight.API.Persistence.Contexts;
 global using Insight.API.Persistence.Models;
 
+global using Going.Plaid;
+global using Going.Plaid.Entity;
+global using Going.Plaid.Item;
+global using Going.Plaid.Link;
+
 global using Microsoft.AspNetCore.Authentication.JwtBearer;
 global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.AspNetCore.Builder;

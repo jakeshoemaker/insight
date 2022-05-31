@@ -1,15 +1,14 @@
 using Insight.API.Endpoints;
 using Insight.API.Options;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointDefinitions(builder.Configuration, typeof(UserEndpoints));
 builder.Services.AddEndpointsApiExplorer();
+
+// plaid setup
+builder.Configuration.AddYamlFile("secrets.yml", optional: true);
 
 var jwtOptions = new JwtOptions();
 builder.Configuration.Bind(nameof(jwtOptions), jwtOptions);
@@ -46,22 +45,30 @@ builder.Services.AddAuthorization(opt =>
         .Build();
 });
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(x =>
+.AddJwtBearer(x =>
+{
+    x.TokenValidationParameters = new TokenValidationParameters()
     {
-        x.TokenValidationParameters = new TokenValidationParameters()
+        ValidateIssuer = false,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration.GetSection("auth")["issuer"],
+        ValidAudience = builder.Configuration.GetSection("auth")["issuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(
+            builder.Configuration.GetSection("auth")["secret"]))
+    };
+});
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy(name: "clientPolicy",
+        policy =>
         {
-            ValidateIssuer = false,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration.GetSection("auth")["issuer"],
-            ValidAudience = builder.Configuration.GetSection("auth")["issuer"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(
-                builder.Configuration.GetSection("auth")["secret"]))
-        };
-    });
-
-
+            policy.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+        });
+});
 
 
 // configure database & services
@@ -77,6 +84,7 @@ app.UseEndpointDefinitions();
 app.UseSwagger();
 app.UseSwaggerUI();
 
+app.UseCors("clientPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
 

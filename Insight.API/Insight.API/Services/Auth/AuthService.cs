@@ -9,7 +9,7 @@ namespace Insight.API.Services;
 
 public interface IAuthService
 {
-    public Task<string> Login(string username, string password);
+    public Task<Tuple<string, User>> Login(string username, string password);
 }
 public class AuthService : IAuthService
 {
@@ -28,12 +28,17 @@ public class AuthService : IAuthService
         _tokenService = tokenService;
     }
 
-    public async Task<string> Login(string username, string password)
+    public async Task<Tuple<string, User>> Login(string username, string password)
     {
         var user = await _ctx.Users.SingleOrDefaultAsync(x => x.Username == username && x.Password == password);
-
         if (user is null) return null;
 
-        return _tokenService.CreateToken(_key, "insight.api", username);
+        // strip user of sensitive data, then return
+        user.Password = null;
+        user.AccessToken = null;
+        user.LoggedInOn = DateTime.Now;
+
+        var token = _tokenService.CreateToken(_key, "insight.api", username);
+        return Tuple.Create(token, user);
     }
 }
