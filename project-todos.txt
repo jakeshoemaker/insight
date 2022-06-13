@@ -1,0 +1,5 @@
+ 1. create a exchange endpoint so we can get the access token
+   1a. done in backend - need to implement front end
+ 2. create a menu view that swiches to the correct view
+ 3. work on credit report that calls data and gets it
+ 

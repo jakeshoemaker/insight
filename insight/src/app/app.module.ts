@@ -14,7 +14,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AuthGaurd } from 'src/shared/auth-gaurd';
 import { AuthService } from 'src/services/auth/auth-service';
-import { UserStorageService } from 'src/services/auth/user-storage-service';
+import { AuthStorageService } from 'src/services/auth/local-storage-service';
 import { HttpClientInterceptor } from 'src/services/interceptors/http-client-interceptor';
 import { PlaidLinkTokenService } from 'src/services/plaid-link-token-service';
 
@@ -38,7 +38,7 @@ import { PlaidLinkTokenService } from 'src/services/plaid-link-token-service';
   providers: [
     AuthGaurd,
     AuthService,
-    UserStorageService,
+    AuthStorageService,
     { provide: HTTP_INTERCEPTORS, useClass: HttpClientInterceptor, multi: true },
         PlaidLinkTokenService
   ],

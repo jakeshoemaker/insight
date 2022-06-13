@@ -64,9 +64,9 @@ builder.Services.AddCors(opt =>
     opt.AddPolicy(name: "clientPolicy",
         policy =>
         {
-            policy.AllowAnyOrigin()
+            policy.WithOrigins("http://localhost:4200")
                 .AllowAnyMethod()
-                .AllowAnyHeader();
+            .AllowAnyHeader();
         });
 });
 
@@ -88,7 +88,7 @@ app.UseCors("clientPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.Run();
 

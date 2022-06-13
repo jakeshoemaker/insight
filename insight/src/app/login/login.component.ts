@@ -18,9 +18,8 @@ export class LoginComponent implements OnInit {
 
   submitLogin() {
     this.authService.login(this.username, this.pw).subscribe((data: Boolean) => {
-      if (data) {
-        this.router.navigateByUrl('/');
-        console.log('successful login!');
+      if(data) {
+        this.router.navigateByUrl('');
       }
     });
   }

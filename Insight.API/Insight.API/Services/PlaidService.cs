@@ -25,7 +25,8 @@ public class PlaidService : IPlaidService
             });
     }
 
-    public async Task<ItemPublicTokenExchangeResponse> ExchangePublicToken(ItemPublicTokenExchangeRequest request, Guid userId)
+    public async Task<ItemPublicTokenExchangeResponse> ExchangePublicToken(
+            ItemPublicTokenExchangeRequest request, Guid userId)
     {
         var exchangeResponse = await _client.ItemPublicTokenExchangeAsync(request);
         var user = await _userService.GetUserById(userId);
@@ -33,10 +34,10 @@ public class PlaidService : IPlaidService
             throw new Exception("Not found");
 
         // save the token to the user
+        user.LoggedInOn = DateTime.UtcNow;
         user.AccessToken = exchangeResponse.AccessToken;
         var _ = await _userService.UpdateUser(user);
 
         return exchangeResponse;
     }
-        
 }

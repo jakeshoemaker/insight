@@ -2,16 +2,16 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { map, catchError, Observable } from "rxjs";
 import { UserLoginResponse } from "src/core/models/UserLoginResponse";
-import { UserStorageService } from "./user-storage-service";
+import { AuthStorageService } from "./local-storage-service";
 
 @Injectable()
 export class AuthService {
-    private baseUri = 'https://localhost:44345';
+    private baseUri = 'http://localhost:5138';
     public isLoggedIn = false;
     private _token: string;
     private _access_token: string;
 
-    constructor(private userStorageService: UserStorageService,
+    constructor(private authStorageService: AuthStorageService,
                 private http: HttpClient) {}
 
     public get token() { return this._token };
@@ -28,7 +28,7 @@ export class AuthService {
         }).pipe(
             map((res: UserLoginResponse) => {
                 if (res != null || res != undefined) {
-                    this.userStorageService.setUser('user', res.user);
+                    this.authStorageService.setAuth('auth', res);
                     this.accessToken = res.user?.access_token ? res.user.access_token : '';
                     this.token = res.token;
                     this.isLoggedIn = true;
@@ -37,4 +37,7 @@ export class AuthService {
             }), catchError(err => { throw (err); })
         );
     }
+
+    // TODO: implement accesstoken call we can grab this 
+    // on login if the server doesnt return one
 }

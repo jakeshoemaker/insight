@@ -16,11 +16,14 @@ export class AuthGaurd implements CanActivate {
     constructor(private authService: AuthService, public router: Router) {}
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-        if (this.authService.isLoggedIn !== true) {
-            window.alert('Please Login');
-            this.router.navigate(['login']);
+        if (localStorage.getItem('auth')) {
+        // logged in so return true
+            return true;
         }
-        return true;
+
+        // redirect since not logged in
+        this.router.navigate(['/login'], {queryParams: { returnUrl: state.url }});
+        return false;
     }
 }
 

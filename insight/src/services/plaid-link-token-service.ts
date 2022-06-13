@@ -8,7 +8,7 @@ import { map, catchError } from 'rxjs/operators';
     providedIn: 'root'
 })
 export class PlaidLinkTokenService {
-    private baseUri = 'https://localhost:44345';
+    private baseUri = 'http://localhost:5138';
     constructor(private http: HttpClient) {}
 
     public getLinkToken(): Observable<PlaidLinkTokenResponse> {

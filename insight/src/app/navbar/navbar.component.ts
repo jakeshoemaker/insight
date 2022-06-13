@@ -1,19 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements AfterViewInit {
   isLoggedIn: boolean = true; // setting true for now - so we can develop app, will implement auth later
-  roles: string[] = ['guest'];
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
+    if (localStorage.getItem('auth') === null) {
+        this.isLoggedIn = false;
+    }
+    this.isLoggedIn = true;
+  }
+
+  logout(): void {
+      localStorage.removeItem('auth');
+      this.isLoggedIn = false;
   }
 
   // get role: gets access level based off token that server sends
+
 
 }

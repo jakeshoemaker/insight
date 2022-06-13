@@ -33,6 +33,7 @@ public class UserService : IUserService
     public async Task<User> UpdateUser(User user)
     {
         var db = _prettyCreditContext;
+        user.LoggedInOn = DateTime.UtcNow;
         db.Users.Update(user);
         await db.SaveChangesAsync();
         return await db.Users.FirstOrDefaultAsync(l => l.Id == user.Id);
