@@ -1,6 +1,7 @@
 ﻿namespace Insight.API.Services;
 
 using System.Threading.Tasks;
+using Going.Plaid.Transactions;
 
 public class PlaidService : IPlaidService
 {
@@ -40,4 +41,5 @@ public class PlaidService : IPlaidService
 
         return exchangeResponse;
     }
+
 }

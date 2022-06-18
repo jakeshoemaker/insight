@@ -1,5 +1,14 @@
  1. create a exchange endpoint so we can get the access token
    1a. done in backend - need to implement front end
+     - got my token - button up when im done
  2. create a menu view that swiches to the correct view
+   get monthly transaction charges
+    - input range (date picker)
+    - send request & then process the request after
+
  3. work on credit report that calls data and gets it
+   - create endpoint that gets the transaction from plaid and returns? not worth 
+   it to store i dont think
+
+
  
