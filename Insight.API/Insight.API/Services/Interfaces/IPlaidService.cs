@@ -2,9 +2,11 @@
 
 using Going.Plaid.Item;
 using Going.Plaid.Link;
+using Going.Plaid.Transactions;
 
 public interface IPlaidService
 {
-    public Task<LinkTokenCreateResponse> CreateLinkToken();
-    Task<ItemPublicTokenExchangeResponse> ExchangePublicToken(ItemPublicTokenExchangeRequest request, Guid userId);
+    Task<LinkTokenCreateResponse> CreateLinkToken();
+    Task<ItemPublicTokenExchangeResponse> ExchangePublicToken(ItemPublicTokenExchangeRequest request, Guid id);
+    Task<TransactionsGetResponse> GetTransactions(Guid id, TransactionsGetRequest request); 
 }
