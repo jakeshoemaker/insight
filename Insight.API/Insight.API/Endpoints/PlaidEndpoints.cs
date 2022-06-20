@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Going.Plaid.Transactions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Insight.API.Endpoints;
 
@@ -10,6 +11,8 @@ public class PlaidEndpoints : IEndpoint
             .AllowAnonymous();
 
         app.MapPost("api/plaid/user/{id}/accessToken/exchange", GetAccessToken);
+
+        app.MapGet("api/plaid/user/{id}/transactions", GetTransactions);
     }
 
     public async Task<IResult> GetLinkToken([FromServices] IPlaidService _plaidService)
@@ -25,6 +28,15 @@ public class PlaidEndpoints : IEndpoint
     public async Task<IResult> GetAccessToken(Guid id, [FromBody] ItemPublicTokenExchangeRequest request, [FromServices] IPlaidService _plaidService)
     {
         var response = await _plaidService.ExchangePublicToken(request, id);
+        if (!response.IsSuccessStatusCode)
+            return Results.NotFound();
+
+        return Results.Ok(response);
+    }
+
+    public async Task<IResult> GetTransactions(Guid id, [FromBody] TransactionsGetRequest request, [FromServices] IPlaidService _plaidService)
+    {
+        var response = await _plaidService.GetTransactions(id, request);
         if (!response.IsSuccessStatusCode)
             return Results.NotFound();
 

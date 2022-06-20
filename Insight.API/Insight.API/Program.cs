@@ -1,5 +1,7 @@
 using Insight.API.Endpoints;
 using Insight.API.Options;
+using Insight.API.Utilities;
+using Microsoft.AspNetCore.Http.Json;
 using Microsoft.OpenApi.Models;
 using Serilog;
 
@@ -15,6 +17,7 @@ try
 
     builder.Services.AddEndpointDefinitions(builder.Configuration, typeof(UserEndpoints));
     builder.Services.AddEndpointsApiExplorer();
+
 
     // plaid setup
     builder.Configuration.AddYamlFile("secrets.yml", optional: true);
@@ -89,6 +92,12 @@ try
     // configure database & services
     builder.Services.RegisterPersistence(builder.Configuration);
     builder.Services.RegisterServices(builder.Configuration);
+
+    // json Options
+    builder.Services.Configure<JsonOptions>(opt => 
+    {
+        opt.SerializerOptions.Converters.Add(new DateOnlyConverter());
+    });
 
     var app = builder.Build();
 
