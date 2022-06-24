@@ -17,6 +17,7 @@ import { AuthService } from 'src/services/auth/auth-service';
 import { AuthStorageService } from 'src/services/auth/local-storage-service';
 import { HttpClientInterceptor } from 'src/services/interceptors/http-client-interceptor';
 import { PlaidLinkTokenService } from 'src/services/plaid-link-token-service';
+import { TransactionService } from 'src/services/transactions/transaction-service';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { PlaidLinkTokenService } from 'src/services/plaid-link-token-service';
     AuthGaurd,
     AuthService,
     AuthStorageService,
+    TransactionService,
     { provide: HTTP_INTERCEPTORS, useClass: HttpClientInterceptor, multi: true },
         PlaidLinkTokenService
   ],

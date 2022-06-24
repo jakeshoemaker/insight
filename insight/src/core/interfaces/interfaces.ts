@@ -3,3 +3,11 @@ export default interface PlaidLinkTokenResponse {
     expiration: string;
     request_id: string;
 }
+
+export default interface TransactionGetRequest {
+    accessToken: string;
+    showRawJson: boolean;
+    startDate: Date; // Date only on server (yyyy-mm-dd)
+    endDate: Date;
+}
+

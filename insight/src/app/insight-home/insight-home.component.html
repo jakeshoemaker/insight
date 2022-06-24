@@ -1,7 +1,19 @@
 <div *ngIf="isLoggedIn">
-    hey , congrats! youre logged in!
     <div>
-        two choices - credit or debit
+        <button class="
+            text-white
+            bg-red-500
+            border-0 border-0 
+            py-2 px-8 
+            focus:outline-none 
+            hover:bg-red-600 
+            rounded text-lg"
+            (click)="getTransactions()"> get transactions </button>
     </div>
 <div>
 
+<div *ngIf="transactions !== null || transactions !== undefined">
+    <div>
+         transactions: {{transactions | json}}
+    </div>
+</div>
