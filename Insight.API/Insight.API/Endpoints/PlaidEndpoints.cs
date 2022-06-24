@@ -12,7 +12,7 @@ public class PlaidEndpoints : IEndpoint
 
         app.MapPost("api/plaid/user/{id}/accessToken/exchange", GetAccessToken);
 
-        app.MapGet("api/plaid/user/{id}/transactions", GetTransactions);
+        app.MapPost("api/plaid/user/{id}/transactions", GetTransactions);
     }
 
     public async Task<IResult> GetLinkToken([FromServices] IPlaidService _plaidService)

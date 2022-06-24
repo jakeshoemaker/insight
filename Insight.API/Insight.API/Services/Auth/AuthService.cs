@@ -1,11 +1,4 @@
-﻿
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-
-namespace Insight.API.Services;
+﻿namespace Insight.API.Services;
 
 public interface IAuthService
 {
@@ -33,9 +26,8 @@ public class AuthService : IAuthService
         var user = await _ctx.Users.SingleOrDefaultAsync(x => x.Username == username && x.Password == password);
         if (user is null) return null;
 
-        // strip user of sensitive data, then return
+        // strip password, then return
         user.Password = null;
-        user.AccessToken = null;
         user.LoggedInOn = DateTime.Now;
 
         var token = _tokenService.CreateToken(_key, "insight.api", username);
