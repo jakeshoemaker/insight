@@ -1,4 +1,4 @@
-export interface Location {
+export class Location {
     lat: number // latitude 
     lon: number // longitude 
     country: string // country code

@@ -12,8 +12,53 @@
     </div>
 <div>
 
-<div *ngIf="transactions !== null || transactions !== undefined">
+<div class="container" name="transactions-container" *ngIf="transactions !== null || transactions !== undefined">
+    <div> accounts </div>
+        <table class="accounts-table">
+            <thead>
+                <tr>
+                    <th>account name</th>
+                    <th>balance</th> 
+                    <th>currency</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let acc of accounts">
+                    <td> {{ acc.name }} </td>
+                    <td> {{ acc.balances.current }} </td>
+                    <td> {{ acc.balances.iso_currency_code }} </td>
+                </tr>
+            <tbody>
+        </table>
+            <table class="transactions-table">
+                <thead>
+                    <tr>
+                        <th>account</th>
+                        <th>amount</th>
+                        <th>name</th>
+                        <th>transaction-type</th>
+                        <th>location</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let t of transactions">
+                        <td>{{getAccountName(t.account_id)}}</td>
+                        <td>{{t.amount}}</td>
+                        <td>{{t.name}}</td>
+                        <td>{{t.transaction_type}}</td>
+                        <td>{{t.location}}</td>
+                    </tr>
+                </tbody>
+            </table>
+</div>
+
+
+
+
+
+
+<!--
     <div>
          transactions: {{transactions | json}}
-    </div>
-</div>
+    </div> 
+-->

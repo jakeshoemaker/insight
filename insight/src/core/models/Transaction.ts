@@ -4,7 +4,7 @@ import { TransactionType } from "../enums/TransactionType"
 import { PaymentMeta } from "./PaymentMeta"
 import { PersonalFinanceCategory } from "./PersonalFinanceCategory"
 
-export interface Transaction {
+export class Transaction {
     category: string[]
     transaction_id: string
     pending: boolean
