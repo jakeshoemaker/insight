@@ -1,4 +1,4 @@
-export interface PersonalFinanceCategory {
+export class PersonalFinanceCategory {
     primary: string
     detailed: string
 }
